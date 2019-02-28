@@ -1,0 +1,75 @@
+ 	
+;***************************************************************
+; Crt0 functions
+;***************************************************************
+
+
+	section	time_counter
+	org	y:
+	global	F__time
+F__time
+	dc	0
+	endsec
+
+	section	io_primitives
+	org	p:
+	nop
+	
+	global	F__send
+F__send	
+	rts
+	nop
+	nop
+	
+	global	F__receive
+F__receive
+	rts
+	nop
+	endsec
+
+   section init_table
+    org p:
+    xdef    F__begin_init_table
+F__begin_init_table
+    dc (-1)
+    endsec
+
+   section cinit
+    org     p:
+    xref  F__begin_init_table
+    global  F__init_c_vars
+F__init_c_vars   
+	clr   a                     
+	clr   b
+    move  #$ffffff,m0
+    move  m0,m1
+    move  m0,m2
+	move  #F__begin_init_table,r0
+
+    do    forever,_lab1
+	; p:(r0)      destination start          
+	; p:(r0+1)    source start               
+	; p:(r0+2)    size of source block size  
+	; p:(r0+3)    size zero initialized block
+
+    movem p:(r0)+,r1            ; destination start
+    lua   (r1)+,b
+    tst   b
+    nop
+    brkeq
+    movem p:(r0)+,r2        ; source start           
+    movem p:(r0)+,r3        ; size of expicitly initialized block
+    movem p:(r0)+,r4        ; size of zero initialized block
+
+    do    r3,_lab2
+    movem p:(r2)+,x0
+    move  x0,y:(r1)+
+    nop
+_lab2                
+    do    r4,_lab3
+    move  a1,y:(r1)+
+_lab3   
+    nop
+_lab1
+   rts                    
+    endsec

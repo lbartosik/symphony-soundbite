@@ -1,0 +1,659 @@
+Freescale Semiconductor DSP56300 Assembler  Version 6.3.28   19-02-26  21:34:24  ../dsp_crt0.asm  Page 1
+
+
+
+1                                    page    132,60
+2                                    section main
+3      
+153    
+154                        ; ###################################################################
+155                        ;
+156                        ; Default Hardware Memory Map for DSP56371(MS=1, MSW0=1, MSW1=1)
+157                        ;
+158                        ;            Program               X Data                Y Data
+159                        ; $ffffff.-------------.$ffffff.-------------.$ffffff.-------------.
+160                        ;        |             |       |  Int. I/O   |       |  Int. I/O   |
+161                        ;        | Program ROM |$ffff80|_____________|$ffff80|_____________|
+162                        ; $fff0c0|_____________|       |             |       |             |
+163                        ;        |             |       |  Ext. N/M   |       |  Ext. N/M   |
+164                        ;        |Bootstrap ROM|$fff000|_____________|$fff000|_____________|
+165                        ; $ff0000|_____________|       |             |       |
+166                        ;        |             |       | Int. Rsrvd. |       | Int. Rsrvd. |
+167                        ;        |             |$ff0000|_____________|$ff0000|_____________|
+168                        ;        |             |       |             |       |             |
+169                        ;        |             |$010000|_____________|$016000|_____________|
+170                        ;        |             |       |             |       |             |
+171                        ;        |             |       |  X Data RAM |       |  Y Data RAM |
+172                        ;        |             |       |    16 K     |       |     40 K    |
+173                        ;        |             |$00C000|_____________|$00C000|_____________|
+174                        ;        |             |       |             |       |             |
+175                        ;        |             |       |  32 K ROM   |       |  32 K ROM   |
+176                        ; $003000|_____________|$004000|_____________|$004000|_____________|
+177                        ;        |             |       |             |       |             |
+178                        ;        |             |$003000|_____________|$002000|_____________|
+179                        ;        |   Internal  |       |             |       |             |
+180                        ;        | Program RAM |       |             |       |             |
+181                        ;        |     12 K    |       |  X Data RAM |       |  Y Data RAM |
+182                        ;        |             |       |     12 K    |       |     8 K     |
+183                        ; $000000|_____________|$000000|_____________|$000000|_____________|
+184                        ;
+185                        ; N/M = Not Mapped
+186                        ;
+187                        ; ###################################################################
+188    
+189                        ;**************************************************************************
+190                        ; Global symbols
+191                        ;**************************************************************************
+192                                  GLOBAL  RS_TX_FLAGS,RS_RX_FLAGS,RS_RX_DATA
+193    
+194       X:00FF00                   org     x:$00FF00
+195    
+196                                                                            ; Extended stack space is locted in upper part of X m
+emory
+197                                                                            ; and it spans from 0x00FF00 to 0x010000 (256 words)
+198                        EXTENDED_STACK
+199       X:00FF00                   ds      EXTENDED_STACK_SIZE
+200    
+201       X:010000                   org     x:
+202    
+203                        FILTER_COEFFS
+204       X:010000                   dc      0.0083,0.0227,0.0102,-0.0259,-0.0126,0.0472,0.0163,-0.0951,-0.0193,0.3145,0.5203,0.3145
+Freescale Semiconductor DSP56300 Assembler  Version 6.3.28   19-02-26  21:34:24  ../dsp_crt0.asm  Page 2
+
+
+
+,-0.0193,-0.0951,0.0163,0.0472,-0.0126,-0.0259,0.0102,0.0227,0.0083
+205                        FILTER_COEFFS_NUM
+206       X:010015                   dc      21
+207    
+208                        ;**************************************************************************
+209                        ; Intterupt vectors
+210                        ;**************************************************************************
+211    
+212       P:000000                   org     p:I_RESET_VECTOR                  ; hardware reset interrupt
+213       P:000000 0AF080            jmp     Fmain
+                   000100
+214    
+215       P:000010                   org     p:I_IRQA_VECTOR                   ; IRQA interrupt
+216       P:000010 0ABF00            bclr    #0,x:M_IPRC                       ; disable IRQA triggered by a negative edge
+217       P:000011 010B20            bset    #0,x:TIMER_RX_CTRL_AND_STATUS_REG ; enable Rx timer
+218    
+219       P:000012                   org     p:I_IRQB_VECTOR
+220       P:000012 000000            nop
+221       P:000013 000000            nop
+222    
+223       P:000058                   org     p:I_TIMER_RX_CMP_VECTOR           ; timer Rx compare interrupt
+224       P:000058 0D1080            bsr     Frs_rx
+                   000000
+225    
+226       P:00005C                   org     p:I_TIMER_TX_CMP_VECTOR           ; timer Tx compare interrrupt
+227       P:00005C 0D1080            bsr     Frs_tx
+                   000000
+228    
+229       P:000038                   org     p:I_ESAI_TX_VECTOR
+230       P:000038 0D1080            bsr     Fesai_tx
+                   00014C
+231    
+232       P:00003A                   org     p:I_ESAI_TX_EVEN_VECTOR
+233       P:00003A 0D1080            bsr     Fesai_tx_even
+                   000158
+234    
+235       P:00003C                   org     p:I_ESAI_TX_EXCEPTION_VECTOR
+236       P:00003C 0D1080            bsr     Fesai_tx_exception
+                   000140
+237    
+238       P:000070                   org     p:I_ESAI_RX_VECTOR
+239       P:000070 0D1080            bsr     Fesai_rx
+                   000134
+240    
+241       P:000072                   org     p:I_ESAI_RX_EVEN_VECTOR
+242       P:000072 0D1080            bsr     Fesai_rx_even
+                   000145
+243    
+244       P:000074                   org     p:I_ESAI_RX_EXCEPTION_VECTOR
+245       P:000074 0D1080            bsr     Fesai_rx_exception
+                   000128
+246    
+247    
+248       P:000018                   org     p:I_DMA0_VECTOR
+249       P:000018 0D1080            bsr     Fcopy_data
+                   00015E
+Freescale Semiconductor DSP56300 Assembler  Version 6.3.28   19-02-26  21:34:24  ../dsp_crt0.asm  Page 3
+
+
+
+250    
+251    
+252    
+253                        ;********************************************************************
+254                        ; Highest memory address is $016000 because memory locations from
+255                        ; $016000 to $ffffff are either not mapped to external memory or
+256                        ; reserved.
+257                        ;********************************************************************
+258                        TOP_OF_MEMORY
+259       016000                     equ     $016000
+260    
+261                        ;********************************************************************
+262                        ; The following varaibles are used for dynamic memory allocation
+263    
+264       Y:000000                   org     y:
+265    
+266                        ; __stack_safty: Since dynamic memory and the stack grow towards each other
+267                        ; This constant tells brk and sbrk what the minimum amount of space should
+268                        ; be left between the top of stack during the brk or sbrk call and the end
+269                        ; of any allocated memory.
+270                                  global  F__stack_safety
+271                        F__stack_safety
+272       Y:000000                   dc      1024
+273    
+274                        ; __mem_limit: a constant telling brk and sbrk where the end of available
+275                        ;       memory is.
+276                                  global  F__mem_limit
+277                        F__mem_limit
+278       Y:000001                   dc      TOP_OF_MEMORY
+279    
+280                        ; __break: pointer to the next block of memory that can be allocated
+281                        ;       The heap may be moved by changing the initial value of __break.
+282                        ;       This is the base of the heap.
+283                                  global  F__break
+284       Y:000002         F__break  dc      TOP_OF_MEMORY
+285    
+286                        ; __y_size: the base of dynamic memory.
+287                                  global  F__y_size
+288       Y:000003         F__y_size dc      $00C000
+289    
+290                        ; errno: error type: set by some libraries
+291                                  global  Ferrno
+292       Y:000004         Ferrno    dc      $0
+293    
+294                        ; __max_signal the highest possible signal vector offset that might
+295                        ;       be generated by the cpu.
+296                                  global  F__max_signal
+297                        F__max_signal
+298       Y:000005                   dc      $fe
+299    
+300                        ;**************************************************************************
+301                        ; Main entry point
+302                        ;**************************************************************************
+303    
+304       P:000100                   org     p:$100
+305                                  global  Fmain
+Freescale Semiconductor DSP56300 Assembler  Version 6.3.28   19-02-26  21:34:24  ../dsp_crt0.asm  Page 4
+
+
+
+306    
+307                        Fmain
+308       P:000100 0500B0            move              #$0,vba                 ; Vector Base Address: 0
+309       P:000101 0500BB            move              #$0,sp                  ; Stack Pointer: 0
+310       P:000102 0500B1            move              #$0,sc                  ; Stack Counter: 0
+311       P:000103 000084            reset
+312    
+313       P:000104 0003F8            ori     #$03,mr                           ; mask interrupts levels 0,1,2
+314       P:000105 08F4BD            movep             #$04611d,x:PLL_CTRL_REG ; set PLL half speed, 89,088 Mhz
+                   04611D
+315       P:000107 06FFAF            rep     #$fff                             ; delay a bit for PLL to settle...
+316       P:000108 000000            nop
+317    
+318                                                                            ; We can reset omr because default size of program  s
+pace is not enough
+319                                                                            ; to accomodate the code, therefore debugger executes
+ two additional
+320                                                                            ; commands before loading code in order to extend pro
+gram space
+321                                                                            ; M p:2 0x0AFA75
+322                                                                            ; M p:3 0x0AFA76
+323                        ;       move    #0,omr                                  ; reset omr
+324    
+325       P:000109 05F439            move              #$c00300,sr             ; reset sr
+                   C00300
+326       P:00010B 08F4BD            movep             #$04601d,x:PLL_CTRL_REG ; set PLL to full speed, 178,176 Mhz
+                   04601D
+327       P:00010D 06FFAF            rep     #$fff                             ; delay a bit for PLL to settle...
+328       P:00010E 000000            nop
+329    
+330                                                                            ; CONFIGURE EXTENDED HARDWARE STACK
+331       P:00010F 058FB8            movec             #SZ_REGISTER_VALUE,sz   ; initialize hardware stack extension
+332       P:000110 05F42A            movec             #EXTENDED_STACK,ep
+                   00FF00
+333       P:000112 0AFA50            bclr    #16,omr                           ; stack extension will be located in x memory space
+334       P:000113 0AFA74            bset    #20,omr                           ; enable stack extension
+335    
+336                                                                            ; CONFIGURE PINS AND INITIALIZE AK4584 CODEC
+337       P:000114 0D1080            bsr     initialize_AK4584                 ; configure pins to coomunicate with AK4584 vodec
+                   000000
+338       P:000116 0D1080            bsr     configure_AK4584                  ; configure AK4584 codec
+                   000000
+339    
+340                                                                            ;move #$300,r6
+341                                                                            ;bsr    GET_REGS_AK4584         ; dump AK4584 registe
+r bank to x:
+342    
+343                                                                            ; CONFIGURE ESAI and ESAI_1 ports
+344       P:000118 0D1080            bsr     setup_ESAI_0
+                   000000
+345       P:00011A 0D1080            bsr     setup_ESAI_1
+                   000000
+346                                                                            ;bsr INIT_ESAIS
+347    
+348                                                                            ; CONFIGURE AND INITIALIZE SERIAL DRIVER
+349       P:00011C 0AB547            bclr    #RS_RX_PIN,y:PORT_F_DATA_REG
+Freescale Semiconductor DSP56300 Assembler  Version 6.3.28   19-02-26  21:34:24  ../dsp_crt0.asm  Page 5
+
+
+
+350       P:00011D 0AB767            bset    #RS_RX_PIN,y:PORT_F_CTRL_REG
+351       P:00011E 0AB647            bclr    #RS_RX_PIN,y:PORT_F_DIR_REG
+352    
+353       P:00011F 07F40B            movep             #$300204,x:TIMER_RX_CTRL_AND_STATUS_REG
+                   300204
+354       P:000121 07F40A            movep             #0,x:TIMER_RX_LOAD_REG
+                   000000
+355       P:000123 07F409            movep             #TIMER_RX1_COMPARE_VALUE,x:TIMER_RX_COMPARE_REG
+                   00121B
+356    
+357                                                                            ; initialize control data for Rs Rx
+358       P:000125 67F400            move              #RS_RX_BIT_NUMBER,r7
+                   000000
+359       P:000127 44F400            move              #>$000001,x0
+                   000001
+360       P:000129 4C5F00            move                          x0,y:(r7)+
+361       P:00012A 44F400            move              #>$000000,x0
+                   000000
+362       P:00012C 4C5F00            move                          x0,y:(r7)+
+363       P:00012D 66F400            move              #RS_RX_DATA,r6
+                   000000
+364       P:00012F 6E6700            move                          r6,y:(r7)
+365    
+366       P:000130 0D1080            bsr     Frs_init_rx                       ; initialize Rx side of RS
+                   000000
+367       P:000132 0D1080            bsr     Frs_init_tx                       ; initialize Tx side of RS
+                   000000
+368    
+369                                                                            ; initalize rx data pointers
+370       P:000134 66F400            move              #RX_DATA_LEFT_CHANNEL,r6
+                   000000
+371       P:000136 6E7000            move                          r6,y:RX_DATA_LEFT_PTR
+                   000000
+372       P:000138 66F400            move              #RX_DATA_RIGHT_CHANNEL,r6
+                   000000
+373       P:00013A 6E7000            move                          r6,y:RX_DATA_RIGHT_PTR
+                   000000
+374    
+375                                                                            ; initalize DMA 0 channel
+376    
+377                                                                            ;movep #>0,x:DMA_DSR0        ; DMA source address reg
+ister
+378    
+379                                                                            ;movep #DMA_TEST,x:DMA_DDR0  ; DMA destination addres
+s register
+380    
+381                                                                            ;movep #$C50855,x:DMA_DCR0   ; DMA control register
+382    
+383                                                                            ;movep #$001002,x:DMA_DCO0   ; DMA counter register
+384    
+385                                                                            ;movep #$000008,x:DMA_DOR0
+386    
+387    
+388                                                                            ; SET SOFTWARE STACK AND ADRESSING TO LINEAR
+389       P:00013C 6EF000            move                          y:F__y_size,r6 ; to change the base of the stack, change the valu
+e loaded
+Freescale Semiconductor DSP56300 Assembler  Version 6.3.28   19-02-26  21:34:24  ../dsp_crt0.asm  Page 6
+
+
+
+                   000003
+390                                                                            ; into the stack pointer r6
+391       P:00013E 0D1080            bsr     F__init_c_vars                    ; initialize c variables
+                   FFFEC2
+392    
+393       P:000140 05F420            move              #-1,m0
+                   FFFFFF
+394       P:000142 0461A0            move              m0,m1
+395       P:000143 0462A0            move              m0,m2
+396       P:000144 0463A0            move              m0,m3
+397       P:000145 0464A0            move              m0,m4
+398       P:000146 0465A0            move              m0,m5
+399       P:000147 0466A0            move              m0,m6
+400       P:000148 0467A0            move              m0,m7
+401    
+402                                                                            ; ENABLE INTERRUPTS
+403       P:000149 08F4BE            movep             #$000D03,x:M_IPRP       ; enable triple timer interrupt and set its priority 
+to 0
+                   000D03
+404                                                                            ; enable ESAI and ESAI_1 interrupts and set their pri
+ority to 2
+405       P:00014B 08F4BF            movep             #$000005,x:M_IPRC       ; enable IRQA triggered by a negative edge, set its p
+riority to 0
+                   000005
+406                                                                            ; IRQA interrupt is used by Rs Rx side
+407    
+408                                                                            ; IRQB
+409                                                                            ;bset #3,x:M_IPRC
+410                                                                            ;bset #4,x:M_IPRC
+411                                                                            ;bset #5,x:M_IPRC
+412    
+413                                                                            ; DMA channel 0
+414                                                                            ;bset #12,x:M_IPRC
+415                                                                            ;bset #13,x:M_IPRC
+416    
+417       P:00014D 00FCB8            andi    #$FC,mr                           ; enable all interrupts - levels 0,1,2
+418    
+419                        ;**************************************************************************
+420                        ; Main loop
+421                        ;**************************************************************************
+422    
+423                        LOOP
+424       P:00014E 000000            nop
+425       P:00014F 0D1080            bsr     Fmain_loop
+                   000000
+426    
+427                                  .if     Y:ENABLE_PROCESSING <NE> #0 THEN
+433                                  .if     Y:PROCESS_DATA_FLAG <NE> #0 THEN  ; When PROCESS_DATA flag becomes non-zero, it is time
+ to start processing the current set of samples
+439    
+440       P:00015D 3A3200            move              #CHANNEL_BUFFER_SIZE,n2
+441       P:00015E 05C7A2            move              #RX_BUFFER_SIZE-1,m2
+442    
+443       P:00015F 6AF000            move                          y:RX_DATA_RIGHT_PTR,r2
+                   000000
+444       P:000161 63F400            move              #TX_DATA_RIGHT_CHANNEL,r3
+Freescale Semiconductor DSP56300 Assembler  Version 6.3.28   19-02-26  21:34:24  ../dsp_crt0.asm  Page 7
+
+
+
+                   000000
+445    
+446       P:000163 060480            do      #4,_repeat_right
+                   000166
+447       P:000165 4CCA00            move                          y:(r2)+n2,x0
+448       P:000166 4C5B00            move                          x0,y:(r3)+
+449                        _repeat_right
+450    
+451       P:000167 6AF000            move                          y:RX_DATA_LEFT_PTR,r2
+                   000000
+452       P:000169 63F400            move              #TX_DATA_LEFT_CHANNEL,r3
+                   000000
+453    
+454       P:00016B 060480            do      #4,_repeat_left
+                   00016E
+455       P:00016D 4CCA00            move                          y:(r2)+n2,x0
+456       P:00016E 4C5B00            move                          x0,y:(r3)+
+457                        _repeat_left
+458    
+459       P:00016F 05F422            move              #-1,m2
+                   FFFFFF
+460       P:000171 3A0000            move              #0,n2
+461    
+462                        ;    move #FILTER_COEFFS,r4
+463                        ;    move #RX_DATA_LEFT_CHANNEL,r1
+464    
+465                        ;    move x:(r4)+,x0
+466                        ;    move y:(r1)+,y0
+467    
+468                        ;    clr a
+469    
+470                        ;       do #21,_filter_loop
+471                        ;       mac x0,y0,a x:(r4)+,x0 y:(r1)+,y0
+472                        ;_filter_loop
+473    
+474                        ;       move #TX_DATA_LEFT_CHANNEL,r4
+475                        ;       move #0,x0
+476                        ;       move x0,y:(r4)
+477    
+478       P:000172 240000            move              #$0,x0
+479       P:000173 4C7000            move                          x0,Y:PROCESS_DATA_FLAG
+                   000000
+480    
+481                                  .endi
+483                                  .endi
+485    
+486       P:000175 0C014E            jmp     LOOP                              ; jump back to LOOP, doing this endlessly
+487    
+488                        Fcopy_data
+489       P:000176 000084            reset
+490       P:000177 000000            nop
+491       P:000178 000000            nop
+492       P:000179 000000            nop
+493       P:00017A 000000            nop
+494    
+495       P:00017B 000004            rti
+Freescale Semiconductor DSP56300 Assembler  Version 6.3.28   19-02-26  21:34:24  ../dsp_crt0.asm  Page 8
+
+
+
+496    
+497    
+498                        ;**************************************************************************
+499                        ; Interrupt routines
+500                        ;**************************************************************************
+501    
+502                        Fesai_tx_exception
+503       P:00017C 04D1BC            move              r1,ssh
+504    
+505       P:00017D 01330E            bclr    #14,x:M_SAISR
+506       P:00017E 69F000            move                          y:TX_UNDERRUN_COUNTER,r1
+                   000000
+**** 507 [../dsp_crt0.asm 346]: WARNING --- Pipeline stall reading register written in instruction at address: P:00017E (X data move
+ field)
+507       P:000180 205900            move              (r1)+
+508       P:000181 697000            move                          r1,y:TX_UNDERRUN_COUNTER
+                   000000
+509    
+510       P:000183 0451BC            move              ssh,r1
+511    
+512                        ; ESAI transmit odd data (right channel)
+513                        Fesai_tx
+514       P:000184 04D7BC            move              r7,ssh                  ; store r7 on the stack
+515    
+516       P:000185 67F400            move              #TX_DATA_RIGHT_CHANNEL,r7
+                   000000
+**** 517 [../dsp_crt0.asm 356]: WARNING --- Pipeline stall reading register written in instruction at address: P:000185 (X data move
+ field)
+517       P:000187 07DF60            movep             y:(r7)+,x:(M_TX0)
+518       P:000188 07DF61            movep             y:(r7)+,x:(M_TX1)
+519       P:000189 07DF62            movep             y:(r7)+,x:(M_TX2)
+520       P:00018A 07DF63            movep             y:(r7)+,x:(M_TX3)
+521    
+522       P:00018B 67F400            move              #$ffffff,r7
+                   FFFFFF
+523       P:00018D 6F7000            move                          r7,y:PROCESS_DATA_FLAG
+                   000000
+524    
+525       P:00018F 0457BC            move              ssh,r7                  ; restore r7 from the stack
+526       P:000190 000000            nop
+527       P:000191 000004            rti
+528    
+529                        ; ESAI transmit even data (left channel)
+530                        Fesai_tx_even
+531       P:000192 04D7BC            move              r7,ssh                  ; store r7 on the stack
+532    
+533       P:000193 67F400            move              #TX_DATA_LEFT_CHANNEL,r7
+                   000000
+**** 534 [../dsp_crt0.asm 373]: WARNING --- Pipeline stall reading register written in instruction at address: P:000193 (X data move
+ field)
+534       P:000195 07DF60            movep             y:(r7)+,x:(M_TX0)
+535       P:000196 07DF61            movep             y:(r7)+,x:(M_TX1)
+536       P:000197 07DF62            movep             y:(r7)+,x:(M_TX2)
+537       P:000198 07DF63            movep             y:(r7)+,x:(M_TX3)
+538    
+539       P:000199 0457BC            move              ssh,r7                  ; restore r7 from the stack
+Freescale Semiconductor DSP56300 Assembler  Version 6.3.28   19-02-26  21:34:24  ../dsp_crt0.asm  Page 9
+
+
+
+540       P:00019A 000000            nop
+541       P:00019B 000004            rti
+542    
+543                        Fesai_rx_exception
+544       P:00019C 04D1BC            move              r1,ssh
+545    
+546       P:00019D 011347            bclr    #7,y:M_SAISR_1
+547       P:00019E 69F000            move                          y:RX_OVERRUN_COUNTER,r1
+                   000000
+**** 548 [../dsp_crt0.asm 387]: WARNING --- Pipeline stall reading register written in instruction at address: P:00019E (X data move
+ field)
+548       P:0001A0 205900            move              (r1)+
+549       P:0001A1 697000            move                          r1,y:RX_OVERRUN_COUNTER
+                   000000
+550    
+551       P:0001A3 0451BC            move              ssh,r1
+552    
+553                        ; ESAI receive odd data (right channel)
+554                        Fesai_rx
+555       P:0001A4 04D7BC            move              r7,ssh                  ; store r7 on the stack
+556       P:0001A5 047CA7            move              m7,ssh                  ; store m7 on the stack
+557       P:0001A6 04DFBC            move              n7,ssh                  ; store n7 on the stack
+558    
+559       P:0001A7 6FF000            move                          y:RX_DATA_RIGHT_PTR,r7
+                   000000
+560       P:0001A9 05C7A7            move              #RX_BUFFER_SIZE-1,m7
+561       P:0001AA 3F3200            move              #CHANNEL_BUFFER_SIZE,n7
+**** 562 [../dsp_crt0.asm 401]: WARNING --- Pipeline stall reading register written in instruction at address: P:0001AA (X data move
+ field)
+562       P:0001AB 205F00            move              (r7)+
+563    
+564       P:0001AC 070FC8            movep             y:M_RX0_1,y:(r7)+n7
+565       P:0001AD 070FC9            movep             y:M_RX1_1,y:(r7)+n7
+566       P:0001AE 070FCA            movep             y:M_RX2_1,y:(r7)+n7
+567       P:0001AF 070FCB            movep             y:M_RX3_1,y:(r7)+n7
+568    
+569       P:0001B0 6F7000            move                          r7,y:RX_DATA_RIGHT_PTR
+                   000000
+570    
+571       P:0001B2 045FBC            move              ssh,n7
+572       P:0001B3 0467BC            move              ssh,m7
+573       P:0001B4 0457BC            move              ssh,r7                  ; restore r7 from the stack
+574       P:0001B5 000000            nop
+575       P:0001B6 000004            rti
+576    
+577                        ; ESAI receive even data (left channel)
+578                        Fesai_rx_even
+579       P:0001B7 04D7BC            move              r7,ssh                  ; store r7 on the stack
+580       P:0001B8 047CA7            move              m7,ssh                  ; store m7 on the stack
+581       P:0001B9 04DFBC            move              n7,ssh                  ; store n7 on the stack
+582    
+583       P:0001BA 6FF000            move                          y:RX_DATA_LEFT_PTR,r7
+                   000000
+584       P:0001BC 05C7A7            move              #RX_BUFFER_SIZE-1,m7
+585       P:0001BD 3F3200            move              #CHANNEL_BUFFER_SIZE,n7
+**** 586 [../dsp_crt0.asm 425]: WARNING --- Pipeline stall reading register written in instruction at address: P:0001BD (X data move
+Freescale Semiconductor DSP56300 Assembler  Version 6.3.28   19-02-26  21:34:24  ../dsp_crt0.asm  Page 10
+
+
+
+ field)
+586       P:0001BE 205F00            move              (r7)+
+587    
+588       P:0001BF 070FC8            movep             y:M_RX0_1,y:(r7)+n7
+589       P:0001C0 070FC9            movep             y:M_RX1_1,y:(r7)+n7
+590       P:0001C1 070FCA            movep             y:M_RX2_1,y:(r7)+n7
+591       P:0001C2 070FCB            movep             y:M_RX3_1,y:(r7)+n7
+592    
+593       P:0001C3 6F7000            move                          r7,y:RX_DATA_LEFT_PTR
+                   000000
+594    
+595       P:0001C5 045FBC            move              ssh,n7
+596       P:0001C6 0467BC            move              ssh,m7
+597       P:0001C7 0457BC            move              ssh,r7                  ; restore r7 from the stack
+598       P:0001C8 000000            nop
+599       P:0001C9 000004            rti
+600    
+601                                  endsec
+602    
+603                        ;********** *****************************************************
+604                        ; Crt0 functions
+605                        ;***************************************************************
+606    
+607                                  section time_counter
+608       Y:000000                   org     y:
+609                                  global  F__time
+610                        F__time
+611       Y:000000                   dc      0
+612                                  endsec
+613    
+614                                  section io_primitives
+615       P:000000                   org     p:
+616       P:000000 000000            nop
+617    
+618                                  global  F__send
+619                        F__send
+620       P:000001 000000            nop
+621       P:000002 00000C            rts
+622       P:000003 000000            nop
+623       P:000004 000000            nop
+624    
+625                                  global  F__receive
+626                        F__receive
+627       P:000005 000000            nop
+628       P:000006 00000C            rts
+629       P:000007 000000            nop
+630                                  endsec
+631    
+632                                  section init_table
+633       P:000000                   org     p:
+634                                  xdef    F__begin_init_table
+635                        F__begin_init_table
+636       P:000000                   dc      (-1)
+637                                  endsec
+638    
+639                                  section cinit
+Freescale Semiconductor DSP56300 Assembler  Version 6.3.28   19-02-26  21:34:24  ../dsp_crt0.asm  Page 11
+
+
+
+640       P:000000                   org     p:
+641                                  xref    F__begin_init_table
+642                                  global  F__init_c_vars
+643                        F__init_c_vars
+644       P:000000 200013            clr     a
+645       P:000001 20001B            clr     b
+646       P:000002 05F420            move              #$ffffff,m0
+                   FFFFFF
+647       P:000004 0461A0            move              m0,m1
+648       P:000005 0462A0            move              m0,m2
+649       P:000006 60F400            move              #F__begin_init_table,r0
+                   000000
+650    
+651       P:000008 000203            do      forever,_lab1
+                   00001A
+652                                                                            ; p:(r0)      destination start
+653                                                                            ; p:(r0+1)    source start
+654                                                                            ; p:(r0+2)    size of source block size
+655                                                                            ; p:(r0+3)    size zero initialized block
+656    
+657       P:00000A 07D891            movem             p:(r0)+,r1              ; destination start
+**** 658 [../dsp_crt0.asm 497]: WARNING --- Pipeline stall reading register written in instruction at address: P:00000A (Operand fie
+ld)
+658       P:00000B 04590F            lua     (r1)+,b
+659       P:00000C 20000B            tst     b
+660       P:00000D 000000            nop
+661       P:00000E 00021A            brkeq
+662       P:00000F 07D892            movem             p:(r0)+,r2              ; source start
+663       P:000010 07D893            movem             p:(r0)+,r3              ; size of expicitly initialized block
+664       P:000011 07D894            movem             p:(r0)+,r4              ; size of zero initialized block
+665    
+666       P:000012 06D300            do      r3,_lab2
+                   000016
+667       P:000014 07DA84            movem             p:(r2)+,x0
+668       P:000015 4C5900            move                          x0,y:(r1)+
+669       P:000016 000000            nop
+670                        _lab2
+671       P:000017 06D400            do      r4,_lab3
+                   000019
+672       P:000019 5C5900            move                          a1,y:(r1)+
+673                        _lab3
+674       P:00001A 000000            nop
+675                        _lab1
+676       P:00001B 00000C            rts
+677    
+678                                  global  F__crt0_end
+679                        F__crt0_end
+680       P:00001C 000087            stop                                      ; all done
+681    
+682                                  endsec
+
+0    Errors
+7    Warnings
+
+

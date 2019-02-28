@@ -1,0 +1,13 @@
+
+; DMA common registers
+DMA_DSTR EQU $FFFFF4 ; X space: DMA status register
+DMA_DOR0 EQU $FFFFF3 ; X space: DMA offset register 0
+DMA_DOR1 EQU $FFFFF2 ; X space: DMA offset register 1
+DMA_DOR2 EQU $FFFFF1 ; X space: DMA offset register 2
+DMA_DOR3 EQU $FFFFF0 ; X space: DMA offset register 3
+
+; DMA channel 0 registers
+DMA_DSR0 EQU $FFFFEF ; X space: DMA source address register 0
+DMA_DDR0 EQU $FFFFEE ; X space: DMA destination address register 0
+DMA_DCO0 EQU $FFFFED ; X space: DMA counter register 0
+DMA_DCR0 EQU $FFFFEC ; X space: DMA control register 0

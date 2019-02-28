@@ -1,0 +1,28 @@
+
+; RS232
+RS_START_BIT	EQU		$000000
+RS_8TH_BIT      EQU     $000008
+RS_STOP_BIT     EQU     $000009
+
+; Timer Rx registers
+TIMER_RX_CTRL_AND_STATUS_REG EQU $FFFF8B ; X space: Timer Rx Control and Status Register
+TIMER_RX_LOAD_REG            EQU $FFFF8A ; X space: Timer Rx Load Register
+TIMER_RX_COMPARE_REG         EQU $FFFF89 ; X space: Timer Rx Compare Register
+
+TIMER_RX1_COMPARE_VALUE    	 EQU $00121B ; 4635 clock cycles
+TIMER_RX2_COMPARE_VALUE    	 EQU $002435 ; 9269 clock cycles
+
+; Timer Tx registers
+TIMER_TX_CTRL_AND_STATUS_REG EQU $FFFF87 ; X space: Timer Tx Control and Status Register
+TIMER_TX_LOAD_REG            EQU $FFFF86 ; X space: Timer Tx Load Register
+TIMER_TX_COMPARE_REG         EQU $FFFF85 ; X space: Timer Tx Compare Register
+
+TIMER_TX_COMPARE_VALUE    	 EQU $002435 ; 9269 clock cycles
+
+; Number of Rs Tx pin in port F
+RS_TX_PIN EQU $0
+; Number of Rs Rx pin in port F
+RS_RX_PIN EQU $7
+
+BUFFER_STATUS EQU 0
+END_LINE EQU $0d

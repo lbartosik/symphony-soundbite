@@ -1,0 +1,73 @@
+
+; Interrrupt priority registers
+M_IPRC EQU $FFFFFF ; X space: Interrupt Priority Register Core
+M_IPRP EQU $FFFFFE ; X space: Interrupt Priority Register Peripheral
+
+; ESAI registers
+M_SAICR EQU $FFFFB4 ; X space: ESAI Common Control Register
+M_SAISR EQU $FFFFB3 ; X space: ESAI Status Register
+M_RCCR  EQU $FFFFB8 ; X space: ESAI Receive Clock Control Register
+M_TCCR  EQU $FFFFB6 ; X space: ESAI Transmit Clock Control Register
+M_TCR   EQU $FFFFB5 ; X space: ESAI Transmit Control Register
+M_RCR   EQU $FFFFB7 ; X space: ESAI Receive Control Register
+M_TSMA  EQU $FFFFB9 ; X space: ESAI Transmit Slot Mask Register A
+M_TSMB  EQU $FFFFBA ; X space: ESAI Transmit Slot Mask Register B
+M_RSMA  EQU $FFFFBB ; X space: ESAI Receive Slot Mask Register A
+M_RSMB  EQU $FFFFBC ; X space: ESAI Receive Slot Mask Register B
+M_TX0   EQU $FFFFA0 ; X space: ESAI Transmit Data Register 0
+M_TX1   EQU $FFFFA1 ; X space: ESAI Transmit Data Register 1
+M_TX2   EQU $FFFFA2 ; X space: ESAI Transmit Data Register 2
+M_TX3   EQU $FFFFA3 ; X space: ESAI Transmit Data Register 3
+
+; ESAI_1 regsiters
+M_SAICR_1 EQU $FFFF94 ; Y space: ESAI_1 Common Control Register
+M_SAISR_1 EQU $FFFF93 ; Y space: ESAI_1 Status register
+M_RCCR_1  EQU $FFFF98 ; Y space: ESAI_1 Receive Clock Control Register
+M_TCCR_1  EQU $FFFF96 ; Y space: ESAI_1 Transmit Clock Control Register
+M_TCR_1   EQU $FFFF95 ; Y space: ESAI_1 Transmit Control Register
+M_RCR_1   EQU $FFFF97 ; Y space: ESAI_1 Receive Control Register
+M_TSMA_1  EQU $FFFF99 ; Y space: ESAI_1 Transmit Slot Mask Register A
+M_TSMB_1  EQU $FFFF9A ; Y space: ESAI_1 Transmit Slot Mask Register B
+M_RSMA_1  EQU $FFFF9B ; Y space: ESAI_1 Receive Slot Mask Register A
+M_RSMB_1  EQU $FFFF9C ; Y space: ESAI_1 Receive Slot Mask Register B
+M_RX0_1   EQU $FFFF88 ; Y space: ESAI_1 Receive data register 0
+M_RX1_1   EQU $FFFF89 ; Y space: ESAI_1 Receive data register 1
+M_RX2_1   EQU $FFFF8A ; Y space: ESAI_1 Receive data register 2
+M_RX3_1   EQU $FFFF8B ; Y space: ESAI_1 Receive data register 3
+
+; Port C registers (ESAI)
+PORT_C_CTRL_REG EQU $FFFFBF ; Y space: Port Control Register C
+PORT_C_DIR_REG  EQU $FFFFBE ; Y space: Port Direction Register C
+PORT_C_DATA_REG EQU $FFFFBD ; Y space: Port Data Register C
+
+; Port E registers (ESAI_1)
+PORT_E_CTRL_REG EQU $FFFF9F ; Y space: Port Control Register E
+PORT_E_DIR_REG  EQU $FFFF9E ; Y space: Port Direction Register E
+PORT_E_DATA_REG EQU $FFFF9D ; Y space: Port Data Register E
+
+; Port F registers
+PORT_F_CTRL_REG EQU $FFFFF7 ; Y space: Port Control Register F
+PORT_F_DIR_REG  EQU $FFFFF6 ; Y space: Port Direction Register F
+PORT_F_DATA_REG EQU $FFFFF5 ; Y space: Port Data Register F
+ 
+; PLL
+PLL_CTRL_REG    EQU $FFFFFD ; X space: PLL Control Register
+
+; Interrupt vectors
+I_RESET_VECTOR  		   EQU $000000 ; P space
+I_IRQA_VECTOR              EQU $000010 ; P space
+I_IRQB_VECTOR              EQU $000012 ; P space 
+I_DMA0_VECTOR              EQU $000018 ; P space 
+I_TIMER_RX_CMP_VECTOR      EQU $000058 ; P space
+I_TIMER_TX_CMP_VECTOR      EQU $00005C ; P space
+I_ESAI_TX_VECTOR           EQU $000038 ; P space
+I_ESAI_TX_EVEN_VECTOR      EQU $00003A ; P space
+I_ESAI_TX_EXCEPTION_VECTOR EQU $00003C ; P space
+I_ESAI_RX_VECTOR           EQU $000070 ; P space
+I_ESAI_RX_EVEN_VECTOR      EQU $000072 ; P space
+I_ESAI_RX_EXCEPTION_VECTOR EQU $000074 ; P space
+
+EXTENDED_STACK_SIZE EQU $100
+SZ_REGISTER_VALUE EQU (15+EXTENDED_STACK_SIZE/2)
+
+

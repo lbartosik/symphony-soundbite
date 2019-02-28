@@ -1,0 +1,23 @@
+
+; AK4584 Control Interface 
+AK4584_ctl EQU PORT_E_CTRL_REG
+AK4584_dir  EQU PORT_E_DIR_REG
+AK4584_dat	EQU	PORT_E_DATA_REG
+
+; bit masks for AK4584 control interface signals
+bCDTO  EQU  4
+bCDTI  EQU  $20
+bCSN   EQU  $400
+bCCLK  EQU  $800
+
+; bit definitions for AK4584 control interface signals
+CDTO  EQU 2
+CDTI  EQU 5
+CSN   EQU 10
+CCLK  EQU 11
+ 
+; AK4584 control word to be OR'd with value sent
+ak4584_write EQU $20
+ak4584_read  EQU $00
+
+DELAY_AK4584 EQU $fff 
