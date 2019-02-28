@@ -1,0 +1,7 @@
+#Sat Jan 21 15:11:48 CET 2012
+pref_state_memento.org.eclipse.debug.ui.VariableView=<?xml version\="1.0" encoding\="UTF-8"?>\r\n<VariablesViewMemento org.eclipse.debug.ui.SASH_DETAILS_PART\="315" org.eclipse.debug.ui.SASH_VIEW_PART\="684"/>
+org.eclipse.debug.ui.memory.columnSize\:org.eclipse.cdt.debug.core=1
+eclipse.preferences.version=1
+pref_state_memento.org.eclipse.debug.ui.RegisterView=<?xml version\="1.0" encoding\="UTF-8"?>\r\n<VariablesViewMemento org.eclipse.debug.ui.SASH_DETAILS_PART\="172" org.eclipse.debug.ui.SASH_VIEW_PART\="827"/>
+org.eclipse.debug.ui.memory.rowSize\:org.eclipse.cdt.debug.core=4
+org.eclipse.debug.ui.user_view_bindings=<?xml version\="1.0" encoding\="UTF-8" standalone\="no"?>\r\n<viewBindings>\r\n<view id\="org.eclipse.debug.ui.DebugView">\r\n<perspective id\="org.eclipse.cdt.ui.CPerspective" userAction\="closed"/>\r\n</view>\r\n<view id\="org.eclipse.debug.ui.BreakpointView">\r\n<perspective id\="org.eclipse.debug.ui.DebugPerspective" userAction\="opened"/>\r\n</view>\r\n</viewBindings>\r\n

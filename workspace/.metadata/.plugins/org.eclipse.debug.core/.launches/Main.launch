@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<launchConfiguration type="com.zylin.embeddedcdt.56371">
+<stringAttribute key="org.eclipse.debug.core.source_locator_memento" value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&#13;&#10;&lt;sourceLookupDirector&gt;&#13;&#10;&lt;sourceContainers duplicates=&quot;false&quot;&gt;&#13;&#10;&lt;container memento=&quot;&amp;lt;?xml version=&amp;quot;1.0&amp;quot; encoding=&amp;quot;UTF-8&amp;quot;?&amp;gt;&amp;#13;&amp;#10;&amp;lt;workspace/&amp;gt;&amp;#13;&amp;#10;&quot; typeId=&quot;org.eclipse.debug.core.containerType.workspace&quot;/&gt;&#13;&#10;&lt;container memento=&quot;&amp;lt;?xml version=&amp;quot;1.0&amp;quot; encoding=&amp;quot;UTF-8&amp;quot;?&amp;gt;&amp;#13;&amp;#10;&amp;lt;default/&amp;gt;&amp;#13;&amp;#10;&quot; typeId=&quot;org.eclipse.debug.core.containerType.default&quot;/&gt;&#13;&#10;&lt;/sourceContainers&gt;&#13;&#10;&lt;/sourceLookupDirector&gt;&#13;&#10;"/>
+<booleanAttribute key="com.zylin.embeddedcdt.tasking_compiled" value="false"/>
+<stringAttribute key="org.eclipse.cdt.launch.DEBUGGER_REGISTER_GROUPS" value=""/>
+<stringAttribute key="com.zylin.embeddedcdt.profiler_log" value="profiler.log"/>
+<booleanAttribute key="com.zylin.embeddedcdt.enable_profiler" value="false"/>
+<listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_TYPES">
+<listEntry value="4"/>
+</listAttribute>
+<stringAttribute key="org.eclipse.cdt.launch.DEBUGGER_STOP_AT_MAIN_SYMBOL" value="Fmain"/>
+<booleanAttribute key="org.eclipse.cdt.debug.mi.core.verboseMode" value="false"/>
+<booleanAttribute key="org.eclipse.cdt.launch.ENABLE_REGISTER_BOOKKEEPING" value="false"/>
+<booleanAttribute key="org.eclipse.cdt.launch.DEBUGGER_STOP_AT_MAIN" value="true"/>
+<stringAttribute key="org.eclipse.cdt.debug.mi.core.protocol" value="mi"/>
+<stringAttribute key="com.zylin.embeddedcdt.port_id" value="9998"/>
+<stringAttribute key="com.zylin.embeddedcdt.host_name" value="localhost"/>
+<stringAttribute key="com.zylin.embeddedcdt.device_name" value="dsp563xx"/>
+<stringAttribute key="com.zylin.embeddedcdt.core_index" value="0"/>
+<stringAttribute key="org.eclipse.debug.core.source_locator_id" value="org.eclipse.cdt.debug.core.sourceLocator"/>
+<booleanAttribute key="com.zylin.embeddedcdt.load_cld_file" value="true"/>
+<stringAttribute key="com.zylin.embeddedcdt.host_name_user" value="localhost"/>
+<booleanAttribute key="com.zylin.embeddedcdt.user_remote" value="false"/>
+<stringAttribute key="org.eclipse.cdt.launch.DEBUGGER_ID" value="com.zylin.embeddedcdt.EmbeddedCDebugger"/>
+<booleanAttribute key="com.zylin.embeddedcdt.run_at_startup" value="true"/>
+<stringAttribute key="com.zylin.embeddedcdt.port_id_user" value="9998"/>
+<stringAttribute key="org.eclipse.cdt.launch.DEBUGGER_START_MODE" value="run"/>
+<stringAttribute key="org.eclipse.cdt.debug.mi.core.commandFactory" value="org.eclipse.cdt.debug.mi.core.standardCommandFactory"/>
+<stringAttribute key=".gdbinit" value=""/>
+<stringAttribute key="org.eclipse.cdt.launch.MEMORY_BLOCKS" value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&#13;&#10;&lt;memoryBlockExpressionList&gt;&#13;&#10;&lt;expression text=&quot;X-0x00ffffee&quot;/&gt;&#13;&#10;&lt;expression text=&quot;X-0x00ffffff&quot;/&gt;&#13;&#10;&lt;/memoryBlockExpressionList&gt;&#13;&#10;"/>
+<booleanAttribute key="com.zylin.embeddedcdt.defalut_gdb_config_file" value="true"/>
+<stringAttribute key="org.eclipse.cdt.launch.PROJECT_ATTR" value="Main"/>
+<stringAttribute key="org.eclipse.cdt.launch.GLOBAL_VARIABLES" value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&#13;&#10;&lt;globalVariableList/&gt;&#13;&#10;"/>
+<stringAttribute key="org.eclipse.cdt.debug.mi.core.DEBUG_NAME" value="D:\Dsp_software_and_projects\Symphony-Studio\dsp56720-devtools\dist\gdb\gdb56300.exe"/>
+<stringAttribute key="com.zylin.embeddedcdt.debugger_init_commands" value="M p:0 0x000084&#13;&#10;M p:1 0x0AFA67&#13;&#10;M p:2 0x0AFA75&#13;&#10;M p:3 0x0AFA76&#13;&#10;M p:4 0x000200&#13;&#10;set $pc=0&#13;&#10;Cont"/>
+<booleanAttribute key="org.eclipse.cdt.launch.ENABLE_VARIABLE_BOOKKEEPING" value="false"/>
+<stringAttribute key="org.eclipse.cdt.launch.PROGRAM_NAME" value="Debug/Main.cld"/>
+<listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_PATHS">
+<listEntry value="/Main"/>
+</listAttribute>
+<stringAttribute key="org.eclipse.cdt.debug.mi.core.GDB_INIT" value=""/>
+</launchConfiguration>

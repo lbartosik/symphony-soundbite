@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section name="Workbench">
+	<section name="org.eclipse.debug.ui.sourcelookup.SourceLookupDialog">
+		<item key="DIALOG_X_ORIGIN" value="425"/>
+		<item key="DIALOG_FONT_NAME" value="1|Tahoma|8|0|WINDOWS|1|-11|0|0|0|400|0|0|0|1|0|0|0|0|Tahoma"/>
+		<item key="DIALOG_HEIGHT" value="390"/>
+		<item key="DIALOG_Y_ORIGIN" value="241"/>
+		<item key="DIALOG_WIDTH" value="438"/>
+	</section>
+	<section name=".DELETE_ASSOCIATED_CONFIGS_DIALOG">
+		<item key="DIALOG_X_ORIGIN" value="337"/>
+		<item key="DIALOG_FONT_NAME" value="1|Tahoma|8|0|WINDOWS|1|-11|0|0|0|400|0|0|0|1|0|0|0|0|Tahoma"/>
+		<item key="DIALOG_HEIGHT" value="290"/>
+		<item key="DIALOG_Y_ORIGIN" value="365"/>
+		<item key="DIALOG_WIDTH" value="444"/>
+	</section>
+	<section name="org.eclipse.debug.ui.LAUNCH_CONFIGURATIONS_DIALOG_SECTION">
+		<item key="org.eclipse.debug.ui.DIALOG_SASH_WEIGHTS_1" value="237"/>
+		<item key="DIALOG_X_ORIGIN" value="215"/>
+		<item key="DIALOG_FONT_NAME" value="1|Segoe UI|9|0|WINDOWS|1|-12|0|0|0|400|0|0|0|1|0|0|0|0|Segoe UI"/>
+		<item key="DIALOG_HEIGHT" value="715"/>
+		<item key="org.eclipse.debug.ui.EXPANDED_NODES" value=", com.freescale.externaltools.openocdLaunchConfigurationType, com.zylin.embeddedcdt.56371, "/>
+		<item key="DIALOG_Y_ORIGIN" value="41"/>
+		<item key="DIALOG_WIDTH" value="1021"/>
+		<item key="org.eclipse.debug.ui.DIALOG_SASH_WEIGHTS_2" value="762"/>
+	</section>
+</section>

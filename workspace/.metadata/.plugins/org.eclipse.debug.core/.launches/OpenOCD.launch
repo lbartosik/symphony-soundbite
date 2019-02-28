@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<launchConfiguration type="com.freescale.externaltools.openocdLaunchConfigurationType">
+<booleanAttribute key="org.eclipse.debug.core.appendEnvironmentVariables" value="true"/>
+<booleanAttribute key="editedByExternalToolsMainTab" value="true"/>
+<stringAttribute key="org.eclipse.ui.externaltools.ATTR_WORKING_DIRECTORY" value="${env_var:DDT_HOME}/dist/openocd/bin"/>
+<stringAttribute key="com.freescale.toolsconfig.device_name" value="56371"/>
+<stringAttribute key="com.freescale.toolsconfig.dongle_name" value="soundbite"/>
+<stringAttribute key="org.eclipse.ui.externaltools.ATTR_LOCATION" value="${env_var:DDT_HOME}/dist/openocd/bin/openocd.exe"/>
+<booleanAttribute key="com.freescale.toolsconfig.user_device_dongle" value="true"/>
+<stringAttribute key="org.eclipse.ui.externaltools.ATTR_CONFIG_FILE" value="${env_var:DDT_HOME}/dist/openocd/bin/configs/56371_soundbite.cfg"/>
+</launchConfiguration>

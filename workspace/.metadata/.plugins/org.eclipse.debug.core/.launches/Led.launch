@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<launchConfiguration type="com.zylin.embeddedcdt.56371">
+<stringAttribute key="org.eclipse.cdt.launch.GLOBAL_VARIABLES" value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; standalone=&quot;no&quot;?&gt;&#13;&#10;&lt;globalVariableList/&gt;&#13;&#10;"/>
+<booleanAttribute key="com.zylin.embeddedcdt.load_cld_file" value="true"/>
+<stringAttribute key="org.eclipse.cdt.debug.mi.core.protocol" value="mi"/>
+<stringAttribute key="org.eclipse.cdt.debug.mi.core.GDB_INIT" value=""/>
+<booleanAttribute key="com.zylin.embeddedcdt.tasking_compiled" value="false"/>
+<stringAttribute key="org.eclipse.debug.ui.MemoryView.RenderingViewPane.1" value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; standalone=&quot;no&quot;?&gt;&#13;&#10;&lt;persistedMemoryRenderings&gt;&#13;&#10;&lt;memoryRendering memoryBlock=&quot;X-0x00c000&quot; renderingId=&quot;org.eclipse.debug.ui.rendering.raw_memory&quot;/&gt;&#13;&#10;&lt;/persistedMemoryRenderings&gt;&#13;&#10;"/>
+<stringAttribute key="com.zylin.embeddedcdt.port_id_user" value="9998"/>
+<booleanAttribute key="com.zylin.embeddedcdt.enable_profiler" value="false"/>
+<stringAttribute key="com.zylin.embeddedcdt.core_index" value="0"/>
+<stringAttribute key="com.zylin.embeddedcdt.host_name" value="localhost"/>
+<stringAttribute key="org.eclipse.cdt.launch.DEBUGGER_STOP_AT_MAIN_SYMBOL" value="Fmain"/>
+<booleanAttribute key="org.eclipse.cdt.launch.ENABLE_REGISTER_BOOKKEEPING" value="false"/>
+<booleanAttribute key="com.zylin.embeddedcdt.user_remote" value="false"/>
+<stringAttribute key="com.zylin.embeddedcdt.debugger_init_commands" value="M p:0 0x000084&#13;&#10;M p:1 0x000200&#13;&#10;set $pc=0&#13;&#10;Cont"/>
+<stringAttribute key="com.zylin.embeddedcdt.host_name_user" value="localhost"/>
+<stringAttribute key="org.eclipse.cdt.launch.PROJECT_ATTR" value="Led"/>
+<stringAttribute key="com.zylin.embeddedcdt.profiler_log" value="profiler.log"/>
+<booleanAttribute key="com.zylin.embeddedcdt.run_at_startup" value="false"/>
+<stringAttribute key=".gdbinit" value=""/>
+<stringAttribute key="org.eclipse.cdt.launch.DEBUGGER_REGISTER_GROUPS" value=""/>
+<booleanAttribute key="org.eclipse.cdt.launch.DEBUGGER_STOP_AT_MAIN" value="false"/>
+<stringAttribute key="org.eclipse.cdt.debug.mi.core.DEBUG_NAME" value="C:\Symphony-Studio\dsp56720-devtools/dist/gdb/gdb56300.exe"/>
+<listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_PATHS">
+<listEntry value="/Led"/>
+</listAttribute>
+<booleanAttribute key="org.eclipse.cdt.debug.mi.core.verboseMode" value="false"/>
+<stringAttribute key="org.eclipse.cdt.debug.mi.core.commandFactory" value="org.eclipse.cdt.debug.mi.core.standardCommandFactory"/>
+<stringAttribute key="org.eclipse.cdt.launch.DEBUGGER_ID" value="com.zylin.embeddedcdt.EmbeddedCDebugger"/>
+<stringAttribute key="org.eclipse.cdt.launch.DEBUGGER_START_MODE" value="run"/>
+<booleanAttribute key="com.zylin.embeddedcdt.defalut_gdb_config_file" value="true"/>
+<stringAttribute key="com.zylin.embeddedcdt.device_name" value="dsp563xx"/>
+<booleanAttribute key="org.eclipse.cdt.launch.ENABLE_VARIABLE_BOOKKEEPING" value="false"/>
+<stringAttribute key="org.eclipse.cdt.launch.PROGRAM_NAME" value="Debug/Led.cld"/>
+<stringAttribute key="com.zylin.embeddedcdt.port_id" value="9998"/>
+<listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_TYPES">
+<listEntry value="4"/>
+</listAttribute>
+<stringAttribute key="org.eclipse.cdt.launch.MEMORY_BLOCKS" value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; standalone=&quot;no&quot;?&gt;&#13;&#10;&lt;memoryBlockExpressionList&gt;&#13;&#10;&lt;expression text=&quot;X-0x0000c000&quot;/&gt;&#13;&#10;&lt;/memoryBlockExpressionList&gt;&#13;&#10;"/>
+</launchConfiguration>

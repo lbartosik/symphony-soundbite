@@ -1,0 +1,15 @@
+-c
+-g
+-R
+../main.ctl
+-B
+Main.cld
+--
+../../dsp_crt0/Debug/dsp_crt0.cln
+./codecs.cln
+./esai.cln
+./main_loop.cln
+./serial.cln
+./snprintf.cln
+-L
+d:\Dsp_software_and_projects\Symphony-Studio\dsp56720-devtools\dist\gcc\lib\lib563cy.clb

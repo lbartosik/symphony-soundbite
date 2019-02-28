@@ -1,0 +1,11 @@
+-c
+-g
+-R
+../main.ctl
+-B
+Main.cld
+--
+../../dsp_crt0/Debug/dsp_crt0.cln
+./main_loop.cln
+-L
+C:\Symphony-Studio\dsp56720-devtools\dist\gcc\lib\lib563cy.clb
