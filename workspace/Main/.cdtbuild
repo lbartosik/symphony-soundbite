@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?fileVersion 3.1.0?>
+
+<ManagedProjectBuildInfo>
+<project id="Main.com.freescale.managedbuild.target.dsp.c.cld.247876012" name="56K GCC COFF" projectType="com.freescale.managedbuild.target.dsp.c.cld">
+<configuration artifactExtension="cld" artifactName="Main" cleanCommand="rm -f" description="" errorParsers="org.eclipse.cdt.core.MakeErrorParser;org.eclipse.cdt.core.GCCErrorParser;org.eclipse.cdt.core.GLDErrorParser;org.eclipse.cdt.core.GASErrorParser" id="com.freescale.managedbuild.config.dsp.c.cld.debug.88243767" name="Debug" parent="com.freescale.managedbuild.config.dsp.c.cld.debug" prebuildStep="make clean">
+<toolChain id="com.freescale.managedbuild.toolchain.dsp.c.cld.debug.727862663" name="56K GCC Tool Chain" superClass="com.freescale.managedbuild.toolchain.dsp.c.cld.debug">
+<tool id="com.freescale.managedbuild.tool.dsp.c.compiler.cld.debug.396358462" name="56K GCC Compiler" superClass="com.freescale.managedbuild.tool.dsp.c.compiler.cld.debug">
+<option id="dsp.c.compile.option.include.paths.2017581773" superClass="dsp.c.compile.option.include.paths"/>
+<option id="dsp.c.compile.option.xmemory.766051309" superClass="dsp.c.compile.option.xmemory" value="false" valueType="boolean"/>
+<option id="dsp.c.compile.option.ymemory.1941748621" superClass="dsp.c.compile.option.ymemory" value="false" valueType="boolean"/>
+<option id="dsp.c.compile.option.lmemory.391481563" superClass="dsp.c.compile.option.lmemory" value="false" valueType="boolean"/>
+<option id="dsp.c.compiler.cld.debug.option.debug.1786853124" superClass="dsp.c.compiler.cld.debug.option.debug" value="true" valueType="boolean"/>
+</tool>
+<tool id="com.freescale.managedbuild.tool.dsp.c.assembler.cld.debug.2127577553" name="56K GCC Assembler" superClass="com.freescale.managedbuild.tool.dsp.c.assembler.cld.debug">
+<option id="dsp.c.assemble.option.verbose.1789383948" superClass="dsp.c.assemble.option.verbose" value="true" valueType="boolean"/>
+<option id="dsp.c.assemble.option.directory.1461125999" superClass="dsp.c.assemble.option.directory" value="" valueType="string"/>
+</tool>
+<tool id="com.freescale.managedbuild.tool.dsp.c.linker.cld.debug.1651068409" name="56K GCC  Linker" superClass="com.freescale.managedbuild.tool.dsp.c.linker.cld.debug">
+<option id="dsp.c.link.option.crt.422549135" superClass="dsp.c.link.option.crt" value="../../dsp_crt0/Debug/dsp_crt0.cln" valueType="string"/>
+<option id="dsp.c.link.option.directory.1404430961" superClass="dsp.c.link.option.directory" value="" valueType="string"/>
+<option id="dsp.c.link.option.other.1263817363" superClass="dsp.c.link.option.other" value="" valueType="string"/>
+<option id="dsp.c.link.option.verbose.424197649" superClass="dsp.c.link.option.verbose" value="true" valueType="boolean"/>
+<option id="dsp.c.link.option.mapfile.425234836" superClass="dsp.c.link.option.mapfile" value="../main.ctl" valueType="string"/>
+<option id="dsp.c.link.option.libraries.134369171" superClass="dsp.c.link.option.libraries"/>
+<option id="dsp.c.linker.cld.debug.option.debugging.411092230" superClass="dsp.c.linker.cld.debug.option.debugging" value="true" valueType="boolean"/>
+</tool>
+<macros expandEnvironmentMacros="true"/>
+</toolChain>
+<resourceConfiguration exclude="false" id="com.freescale.managedbuild.config.dsp.c.cld.debug.88243767./Main/snprintf.c" name="snprintf.c" rcbsApplicability="disable" resourcePath="/Main/snprintf.c" toolsToInvoke="com.freescale.managedbuild.tool.dsp.c.compiler.cld.debug.396358462./Main/snprintf.c">
+<tool id="com.freescale.managedbuild.tool.dsp.c.compiler.cld.debug.396358462./Main/snprintf.c" name="56K GCC Compiler" superClass="com.freescale.managedbuild.tool.dsp.c.compiler.cld.debug.396358462">
+<option id="dsp.c.compile.option.defsym.1520361964" superClass="dsp.c.compile.option.defsym" valueType="definedSymbols">
+<listOptionValue builtIn="false" value="NEED_SNPRINTF_ONLY"/>
+</option>
+<option id="dsp.c.compiler.cld.debug.option.debug.173770218" superClass="dsp.c.compiler.cld.debug.option.debug" value="true" valueType="boolean"/>
+<option id="dsp.c.compiler.cld.debug.option.noopt.1547017147" superClass="dsp.c.compiler.cld.debug.option.noopt" value="true" valueType="boolean"/>
+</tool>
+</resourceConfiguration>
+</configuration>
+<configuration artifactExtension="cld" artifactName="Main" cleanCommand="rm -f" description="" errorParsers="org.eclipse.cdt.core.MakeErrorParser;org.eclipse.cdt.core.GCCErrorParser;org.eclipse.cdt.core.GLDErrorParser;org.eclipse.cdt.core.GASErrorParser" id="com.freescale.managedbuild.config.dsp.c.cld.release.1914080640" name="Release" parent="com.freescale.managedbuild.config.dsp.c.cld.release" prebuildStep="make clean">
+<toolChain id="com.freescale.managedbuild.toolchain.dsp.c.cld.release.1868141426" name="56K GCC Tool Chain" superClass="com.freescale.managedbuild.toolchain.dsp.c.cld.release">
+<tool id="com.freescale.managedbuild.tool.dsp.c.compiler.cld.release.1938219872" name="56K GCC Compiler" superClass="com.freescale.managedbuild.tool.dsp.c.compiler.cld.release"/>
+<tool id="com.freescale.managedbuild.tool.dsp.c.assembler.cld.release.328992270" name="56K GCC Assembler" superClass="com.freescale.managedbuild.tool.dsp.c.assembler.cld.release"/>
+<tool id="com.freescale.managedbuild.tool.dsp.c.linker.cld.release.877626727" name="56K GCC  Linker" superClass="com.freescale.managedbuild.tool.dsp.c.linker.cld.release"/>
+</toolChain>
+</configuration>
+<macros/>
+</project>
+</ManagedProjectBuildInfo>

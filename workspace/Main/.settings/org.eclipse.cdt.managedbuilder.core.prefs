@@ -1,0 +1,9 @@
+#Tue Feb 26 20:30:37 GMT 2019
+com.freescale.managedbuild.config.dsp.c.cld.debug.88243767/internalBuilder/enabled=false
+com.freescale.managedbuild.config.dsp.c.cld.debug.88243767/internalBuilder/ignoreErr=true
+com.freescale.managedbuild.config.dsp.c.cld.release.1914080640/internalBuilder/enabled=false
+com.freescale.managedbuild.config.dsp.c.cld.release.1914080640/internalBuilder/ignoreErr=true
+eclipse.preferences.version=1
+environment/buildEnvironmentLibrary/com.freescale.managedbuild.config.dsp.c.cld.debug.88243767=<?xml version\="1.0" encoding\="UTF-8"?>\r\n<environment>\r\n<variable name\="G563_EXEC_PREFIX" operation\="replace" value\="d\:\\Dsp_software_and_projects\\Symphony-Studio\\dsp56720-devtools\\dist\\gcc\\lib\\"/>\r\n</environment>\r\n
+environment/project=<?xml version\="1.0" encoding\="UTF-8" standalone\="no"?>\r\n<environment/>\r\n
+environment/project/com.freescale.managedbuild.config.dsp.c.cld.debug.88243767=<?xml version\="1.0" encoding\="UTF-8" standalone\="no"?>\r\n<environment/>\r\n
